@@ -51,11 +51,52 @@ run_text_watermark.command
 
 ```python
 TEXT_WATERMARK = "Kintsugi | Nikon Zf"
+SECOND_TEXT_WATERMARK = "Nikon Zf | NIKKOR Z 40mm f/2"
 FONT_NAME = "SnellRoundhand.ttc"
+SECOND_FONT_NAME = ""
 FONT_SIZE_RATIO = 0.028
+SECOND_FONT_SIZE_RATIO = None
+SECOND_FONT_SIZE_DELTA_PIXELS = 2
+LINE_SPACING_RATIO = 0.12
+SECOND_LINE_WIDTH_SCALE = 1.12
+SECOND_LINE_X_OFFSET_PIXELS = 0
+SECOND_LINE_Y_OFFSET_PIXELS = 0
 POSITION = "bottom_center"
 Y_OFFSET_PIXELS = -40
+TWO_LINE_AUTO_Y_OFFSET_PIXELS = -24
 OPACITY = 0.45
+ADAPTIVE_OPACITY_ENABLED = True
+BRIGHTNESS_THRESHOLD = 185
+BRIGHT_BACKGROUND_OPACITY = 0.98
+BRIGHTNESS_SAMPLE_PADDING_RATIO = 0.35
+```
+
+如果 `SECOND_TEXT_WATERMARK` 为空字符串，则只生成单行签名：
+
+```python
+SECOND_TEXT_WATERMARK = ""
+```
+
+如果要给第二行单独指定字体，把字体文件放进 `fonts/`，然后设置：
+
+```python
+SECOND_FONT_NAME = "YourSmallTextFont.ttf"
+```
+
+如果要给第二行单独指定大小，可以设置：
+
+```python
+SECOND_FONT_SIZE_RATIO = 0.5
+```
+
+`SECOND_FONT_SIZE_RATIO` 是相对第一行字号的倍数，例如 `0.5` 表示第二行字号是第一行的 0.5 倍。如果 `SECOND_FONT_SIZE_RATIO = None`，则使用 `SECOND_FONT_SIZE_DELTA_PIXELS`，让第二行比第一行小几个像素。
+
+如果要微调第二行相对第一行的位置：
+
+```python
+SECOND_LINE_WIDTH_SCALE = 1.12  # 1.12 表示第二行横向拉宽 12%
+SECOND_LINE_X_OFFSET_PIXELS = 0   # 负数向左，正数向右
+SECOND_LINE_Y_OFFSET_PIXELS = -4  # 负数向上，正数向下
 ```
 
 字体查找顺序：
@@ -93,7 +134,18 @@ python3 watermark.py \
 - `--recursive`：递归处理子文件夹。
 - `--position`：`top_left`、`top_center`、`top_right`、`bottom_left`、`bottom_center`、`bottom_right`、`center`。
 - `--y-offset-pixels -40`：垂直微调水印位置，负数向上，正数向下。
+- `--second-text "Nikon Zf | ISO 100"`：添加第二行备注；为空时只生成单行水印。
+- `--second-font MyNoteFont.ttf`：指定第二行字体。
+- `--second-font-size-ratio 0.5`：指定第二行字号相对第一行的倍数。
+- `--second-font-size-delta-pixels 2`：第二行比第一行小的像素数。
+- `--second-line-width-scale 1.12`：第二行横向拉宽比例。
+- `--second-line-x-offset-pixels 0`：第二行相对默认居中位置的左右偏移。
+- `--second-line-y-offset-pixels -4`：第二行相对默认位置的上下偏移。
 - `--opacity`：透明度，范围 `0` 到 `1`，摄影作品推荐 `0.35` 到 `0.60`。
+- `--no-adaptive-opacity`：关闭浅色背景自动增强透明度。
+- `--brightness-threshold 185`：背景平均亮度超过该值时增强水印，范围 `0` 到 `255`。
+- `--bright-background-opacity 0.98`：浅色背景下使用的水印透明度。
+- `--brightness-sample-padding-ratio 0.35`：检测水印周围区域时额外外扩的比例。
 - `--font MySignature.ttf`：指定文字水印字体。可以写 `fonts/` 中的字体文件名，也可以写完整路径。
 - `--font-size-ratio 0.035`：文字大小为图片宽度的比例。
 - `--logo-width-ratio 0.12`：Logo 宽度为图片宽度的比例。
