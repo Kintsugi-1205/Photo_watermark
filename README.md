@@ -37,6 +37,14 @@ macOS 可以双击运行：
 run_text_watermark.command
 ```
 
+也可以双击启动图形界面应用：
+
+```text
+Photo Watermark.app
+```
+
+图形界面支持输入/输出目录选择、预览图选择、主/副水印文字、字体、字号、透明度、位置、第二行拉宽、第二行偏移和浅色背景自动增强透明度。点击 `Refresh Preview` 可以查看当前配置效果，点击 `Generate Watermarks` 批量生成，点击 `Save Settings` 会把界面中的水印参数保存回 `watermark_settings.py`。
+
 终端中可以运行：
 
 ```bash
